@@ -1,15 +1,17 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { Toaster } from 'sonner'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
+  title: 'Talaritel - Global Telecom',
+  description: 'Connect with Ethiopia seamlessly. Fast, reliable, and culturally connected telecom services for modern Africa.',
   generator: 'v0.app',
+  keywords: ['telecom', 'communication', 'Ethiopia', 'calls', 'messaging', 'international'],
   icons: {
     icon: [
       {
@@ -29,6 +31,14 @@ export const metadata: Metadata = {
   },
 }
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: '#CE1126',
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,6 +48,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="font-sans antialiased">
         {children}
+        <Toaster position="top-right" richColors />
         <Analytics />
       </body>
     </html>
