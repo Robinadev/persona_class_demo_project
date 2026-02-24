@@ -5,25 +5,27 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useTransactionHistory, useWalletBalance } from "@/lib/hooks/useUserProfile"
 import { formatDistanceToNow } from 'date-fns'
+import { ArrowUp, Smartphone, Phone, Send, ArrowDown, CreditCard } from 'lucide-react'
 
 export default function BillingPage() {
   const { transactions, isLoading } = useTransactionHistory()
   const { balance, currency } = useWalletBalance()
 
   const getTransactionIcon = (type: string) => {
+    const iconProps = { className: 'h-4 w-4' }
     switch (type) {
       case 'top_up':
-        return '⬆️'
+        return <ArrowUp {...iconProps} />
       case 'plan_purchase':
-        return '📱'
+        return <Smartphone {...iconProps} />
       case 'call_charge':
-        return '☎️'
+        return <Phone {...iconProps} />
       case 'send_money':
-        return '📤'
+        return <Send {...iconProps} />
       case 'receive_money':
-        return '📥'
+        return <ArrowDown {...iconProps} />
       default:
-        return '💳'
+        return <CreditCard {...iconProps} />
     }
   }
 
@@ -95,9 +97,9 @@ export default function BillingPage() {
                           <TableCell className="text-sm">
                             {formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}
                           </TableCell>
-                          <TableCell>
-                            <span className="mr-2">{getTransactionIcon(item.type)}</span>
-                            {getTypeLabel(item.type)}
+                          <TableCell className="flex items-center gap-2">
+                            {getTransactionIcon(item.type)}
+                            <span>{getTypeLabel(item.type)}</span>
                           </TableCell>
                           <TableCell className="text-sm text-muted-foreground">
                             {item.description}

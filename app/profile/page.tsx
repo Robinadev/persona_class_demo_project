@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Layout } from "@/components/layout"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -13,11 +13,22 @@ import { toast } from 'sonner'
 export default function ProfilePage() {
   const { profile, isLoading, mutate } = useUserProfile()
   const [formData, setFormData] = useState({
-    full_name: profile?.full_name || '',
-    phone_number: profile?.phone_number || '',
-    avatar_url: profile?.avatar_url || '',
+    full_name: '',
+    phone_number: '',
+    avatar_url: '',
   })
   const [isSaving, setIsSaving] = useState(false)
+
+  // Sync form data with profile data when it loads
+  useEffect(() => {
+    if (profile) {
+      setFormData({
+        full_name: profile.full_name || '',
+        phone_number: profile.phone_number || '',
+        avatar_url: profile.avatar_url || '',
+      })
+    }
+  }, [profile])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
