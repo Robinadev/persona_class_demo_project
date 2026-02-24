@@ -162,51 +162,81 @@ ALTER TABLE public.activity_logs ENABLE ROW LEVEL SECURITY;
 
 -- Create RLS policies for user data privacy
 -- Users can only see their own profiles
-CREATE POLICY "Users can view own profile" ON public.profiles
+CREATE POLICY IF NOT EXISTS "Users can view own profile" ON public.profiles
   FOR SELECT USING (auth.uid() = id);
 
 -- Users can update their own profile
-CREATE POLICY "Users can update own profile" ON public.profiles
+CREATE POLICY IF NOT EXISTS "Users can update own profile" ON public.profiles
   FOR UPDATE USING (auth.uid() = id);
 
+-- Insert policy for profiles
+CREATE POLICY IF NOT EXISTS "Users can insert own profile" ON public.profiles
+  FOR INSERT WITH CHECK (auth.uid() = id);
+
 -- Users can only see their own wallet
-CREATE POLICY "Users can view own wallet" ON public.wallets
+CREATE POLICY IF NOT EXISTS "Users can view own wallet" ON public.wallets
   FOR SELECT USING (auth.uid() = user_id);
 
+-- Users can insert wallet records
+CREATE POLICY IF NOT EXISTS "Users can insert wallet" ON public.wallets
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+-- Users can update their wallet
+CREATE POLICY IF NOT EXISTS "Users can update wallet" ON public.wallets
+  FOR UPDATE USING (auth.uid() = user_id);
+
 -- Users can only see their own transactions
-CREATE POLICY "Users can view own transactions" ON public.transactions
+CREATE POLICY IF NOT EXISTS "Users can view own transactions" ON public.transactions
   FOR SELECT USING (auth.uid() = user_id);
 
 -- Users can insert their own transactions
-CREATE POLICY "Users can insert own transactions" ON public.transactions
+CREATE POLICY IF NOT EXISTS "Users can insert own transactions" ON public.transactions
   FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 -- Users can only see their own calls
-CREATE POLICY "Users can view own calls" ON public.calls
+CREATE POLICY IF NOT EXISTS "Users can view own calls" ON public.calls
   FOR SELECT USING (auth.uid() = user_id);
 
--- Users can only see their own contacts
-CREATE POLICY "Users can view own contacts" ON public.contacts
-  FOR SELECT USING (auth.uid() = user_id);
-
--- Users can manage their own contacts
-CREATE POLICY "Users can manage own contacts" ON public.contacts
+-- Users can insert their own calls
+CREATE POLICY IF NOT EXISTS "Users can insert own calls" ON public.calls
   FOR INSERT WITH CHECK (auth.uid() = user_id);
 
-CREATE POLICY "Users can update own contacts" ON public.contacts
+-- Users can only see their own contacts
+CREATE POLICY IF NOT EXISTS "Users can view own contacts" ON public.contacts
+  FOR SELECT USING (auth.uid() = user_id);
+
+-- Users can insert own contacts
+CREATE POLICY IF NOT EXISTS "Users can insert own contacts" ON public.contacts
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+-- Users can update own contacts
+CREATE POLICY IF NOT EXISTS "Users can update own contacts" ON public.contacts
   FOR UPDATE USING (auth.uid() = user_id);
 
-CREATE POLICY "Users can delete own contacts" ON public.contacts
+-- Users can delete own contacts
+CREATE POLICY IF NOT EXISTS "Users can delete own contacts" ON public.contacts
   FOR DELETE USING (auth.uid() = user_id);
 
 -- Users can see transfers they sent or received
-CREATE POLICY "Users can view own transfers" ON public.transfers
+CREATE POLICY IF NOT EXISTS "Users can view own transfers" ON public.transfers
   FOR SELECT USING (auth.uid() = sender_id OR auth.uid() = recipient_id);
 
+-- Users can insert transfers
+CREATE POLICY IF NOT EXISTS "Users can insert transfers" ON public.transfers
+  FOR INSERT WITH CHECK (auth.uid() = sender_id);
+
 -- Users can see their own activity logs
-CREATE POLICY "Users can view own activity" ON public.activity_logs
+CREATE POLICY IF NOT EXISTS "Users can view own activity" ON public.activity_logs
   FOR SELECT USING (auth.uid() = user_id);
 
--- Admins can view all data (add admin check)
-CREATE POLICY "Admins can view all" ON public.profiles
-  FOR SELECT USING (EXISTS (SELECT 1 FROM public.admin_users WHERE id = auth.uid() AND is_active = TRUE));
+-- Users can insert activity logs
+CREATE POLICY IF NOT EXISTS "Users can insert activity logs" ON public.activity_logs
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+-- Users can see their own subscriptions
+CREATE POLICY IF NOT EXISTS "Users can view own subscriptions" ON public.subscriptions
+  FOR SELECT USING (auth.uid() = user_id);
+
+-- Users can insert subscriptions
+CREATE POLICY IF NOT EXISTS "Users can insert subscriptions" ON public.subscriptions
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
