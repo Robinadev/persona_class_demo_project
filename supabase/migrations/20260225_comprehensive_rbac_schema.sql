@@ -58,10 +58,7 @@ CREATE TABLE IF NOT EXISTS activity_logs (
   ip_address INET,
   user_agent TEXT,
   status VARCHAR(50) DEFAULT 'success',
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  INDEX idx_user_id (user_id),
-  INDEX idx_created_at (created_at),
-  INDEX idx_action (action)
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- 7. Create audit_logs table for sensitive operations
@@ -73,10 +70,7 @@ CREATE TABLE IF NOT EXISTS audit_logs (
   record_id UUID,
   old_values JSONB,
   new_values JSONB,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  INDEX idx_user_id (user_id),
-  INDEX idx_table_name (table_name),
-  INDEX idx_created_at (created_at)
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- 8. Insert default role permissions
@@ -218,7 +212,11 @@ CREATE INDEX IF NOT EXISTS idx_user_roles_user_id ON user_roles(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_roles_role ON user_roles(role);
 CREATE INDEX IF NOT EXISTS idx_profiles_role ON profiles(role);
 CREATE INDEX IF NOT EXISTS idx_activity_logs_user_id ON activity_logs(user_id);
+CREATE INDEX IF NOT EXISTS idx_activity_logs_created_at ON activity_logs(created_at);
+CREATE INDEX IF NOT EXISTS idx_activity_logs_action ON activity_logs(action);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_user_id ON audit_logs(user_id);
 CREATE INDEX IF NOT EXISTS idx_audit_logs_table_name ON audit_logs(table_name);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at ON audit_logs(created_at);
 
 -- 16. Create trigger to update profiles.updated_at
 CREATE OR REPLACE FUNCTION update_profiles_updated_at()

@@ -47,9 +47,9 @@ export default function LandingPage() {
             <Button
               asChild
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg"
+              className="bg-gradient-to-r from-red-600 to-yellow-600 hover:from-red-700 hover:to-yellow-700 text-white shadow-lg font-semibold"
             >
-              <Link href="/signup" className="inline-flex items-center gap-2">
+              <Link href="/create-account" className="inline-flex items-center gap-2">
                 Create Account
                 <ArrowRight className="h-5 w-5" />
               </Link>
@@ -58,7 +58,7 @@ export default function LandingPage() {
               asChild
               size="lg"
               variant="outline"
-              className="border-primary text-primary hover:bg-primary/5"
+              className="border-2 border-primary text-primary hover:bg-primary/5 font-semibold"
             >
               <Link href="/login">Log In</Link>
             </Button>
