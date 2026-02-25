@@ -121,6 +121,6 @@ CREATE TRIGGER user_subscriptions_updated_at
 INSERT INTO plans (name, description, price, duration_days, call_minutes, sms_count, data_gb, features) VALUES
   ('Basic', 'Perfect for light users with essential features', 9.99, 30, 100, 100, 5.0, '["Caller ID", "Voicemail"]'::jsonb),
   ('Standard', 'Great value with unlimited calls and texts', 19.99, 30, 0, 0, 20.0, '["Unlimited Calls", "Unlimited SMS", "Caller ID", "Voicemail", "Call Waiting"]'::jsonb),
-  ('Premium', 'Ultimate plan with unlimited everything', 29.99, 30, 0, 0, 0, '["Unlimited Calls", "Unlimited SMS", "Unlimited Data", "HD Voice", "International Calling", "Priority Support"]'::jsonb),
+  ('Unlimited', 'Ultimate plan with unlimited everything', 29.99, 30, 0, 0, 0, '["Unlimited Calls", "Unlimited SMS", "Unlimited Data", "HD Voice", "International Calling", "Priority Support"]'::jsonb),
   ('Pay As You Go', 'No commitment, pay only for what you use', 0.00, 365, 0, 0, 0, '["No Expiry", "Flexible Usage"]'::jsonb)
 ON CONFLICT DO NOTHING;
