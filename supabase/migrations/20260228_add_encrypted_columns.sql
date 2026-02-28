@@ -1,3 +1,13 @@
+-- Helper function to check admin role (create first before using)
+CREATE OR REPLACE FUNCTION is_admin() RETURNS BOOLEAN AS $$
+BEGIN
+  RETURN EXISTS (
+    SELECT 1 FROM profiles
+    WHERE id = auth.uid() AND role IN ('super_admin', 'admin')
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
 -- Add encrypted columns for sensitive PII to profiles table
 ALTER TABLE profiles ADD COLUMN IF NOT EXISTS phone_encrypted JSONB;
 ALTER TABLE profiles ADD COLUMN IF NOT EXISTS phone_hash VARCHAR(255);
@@ -71,16 +81,6 @@ CREATE POLICY "Users can view own sensitive data logs" ON sensitive_data_logs
 CREATE POLICY "Admins can insert sensitive data logs" ON sensitive_data_logs
   FOR INSERT
   WITH CHECK (is_admin());
-
--- Helper function to check admin role
-CREATE OR REPLACE FUNCTION is_admin() RETURNS BOOLEAN AS $$
-BEGIN
-  RETURN EXISTS (
-    SELECT 1 FROM admin_users
-    WHERE user_id = auth.uid()
-  );
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- Update profiles table with encryption audit
 ALTER TABLE profiles ADD COLUMN IF NOT EXISTS encryption_enabled BOOLEAN DEFAULT TRUE;
