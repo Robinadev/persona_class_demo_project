@@ -62,6 +62,25 @@ class APIClient {
     return response.data;
   }
 
+  async sendOTP(phoneNumber: string) {
+    return this.client.post('/auth/send-otp', { phoneNumber });
+  }
+
+  async verifyOTP(phoneNumber: string, code: string) {
+    const response = await this.client.post('/auth/verify-otp', {
+      phoneNumber,
+      code,
+    });
+    if (response.data.token) {
+      await this.setToken(response.data.token);
+    }
+    return response;
+  }
+
+  async resendOTP(phoneNumber: string) {
+    return this.client.post('/auth/resend-otp', { phoneNumber });
+  }
+
   async signup(email: string, password: string, full_name: string, role: string = 'user') {
     return this.client.post('/auth/signup', {
       email,
@@ -129,9 +148,58 @@ class APIClient {
     });
   }
 
+  // Call endpoints
+  async getCallHistory(limit = 50, offset = 0) {
+    return this.client.get('/calls/history', {
+      params: { limit, offset },
+    });
+  }
+
+  async logCall(callData: any) {
+    return this.client.post('/calls/log', callData);
+  }
+
+  // Contact endpoints
+  async getContacts(limit = 100, offset = 0) {
+    return this.client.get('/contacts', {
+      params: { limit, offset },
+    });
+  }
+
+  async addContact(contactData: any) {
+    return this.client.post('/contacts', contactData);
+  }
+
+  async updateContact(id: string, contactData: any) {
+    return this.client.put(`/contacts/${id}`, contactData);
+  }
+
+  async deleteContact(id: string) {
+    return this.client.delete(`/contacts/${id}`);
+  }
+
+  // Plans endpoints
+  async getPlans() {
+    return this.client.get('/plans');
+  }
+
+  async getPlanDetails(id: string) {
+    return this.client.get(`/plans/${id}`);
+  }
+
+  async subscribeToPlan(planId: string) {
+    return this.client.post('/subscriptions', { planId });
+  }
+
   // Wallet endpoints
   async getWalletBalance() {
     return this.client.get('/wallets/balance');
+  }
+
+  async getWalletTransactions(limit = 50, offset = 0) {
+    return this.client.get('/wallets/transactions', {
+      params: { limit, offset },
+    });
   }
 
   // Analytics endpoints (admin only)

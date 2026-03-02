@@ -1,12 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { api } from '../services/api';
+import MobileRealTimeSync from '../services/sync';
 import * as SecureStore from 'expo-secure-store';
 
 export type UserRole = 'super_admin' | 'admin' | 'support' | 'user';
 
 export interface User {
   id: string;
-  email: string;
+  phone_number?: string;
+  email?: string;
   full_name: string;
   role: UserRole;
   avatar_url?: string;
@@ -16,7 +18,9 @@ interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   isSignedIn: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (token: string, phoneNumber?: string, userId?: string) => Promise<void>;
+  loginWithPhone: (phoneNumber: string) => Promise<void>;
+  verifyOTP: (phoneNumber: string, code: string) => Promise<void>;
   signup: (email: string, password: string, full_name: string, role?: UserRole) => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (data: any) => Promise<void>;
@@ -49,10 +53,38 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const login = async (email: string, password: string) => {
+  const login = async (token: string, phoneNumber?: string, userId?: string) => {
     try {
-      const response = await api.login(email, password);
-      setUser(response.user);
+      await api.setToken(token);
+      if (phoneNumber && userId) {
+        const user: User = {
+          id: userId,
+          phone_number: phoneNumber,
+          full_name: phoneNumber,
+          role: 'user',
+        };
+        setUser(user);
+      } else {
+        const response = await api.getProfile();
+        setUser(response.data.user);
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const loginWithPhone = async (phoneNumber: string) => {
+    try {
+      await api.sendOTP(phoneNumber);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const verifyOTP = async (phoneNumber: string, code: string) => {
+    try {
+      const response = await api.verifyOTP(phoneNumber, code);
+      await login(response.data.token, response.data.phoneNumber, response.data.userId);
     } catch (error) {
       throw error;
     }
