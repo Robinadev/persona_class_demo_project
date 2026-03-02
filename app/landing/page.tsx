@@ -16,12 +16,14 @@ export default function LandingPage() {
             <div className="relative w-24 h-24 sm:w-32 sm:h-32">
               <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-accent rounded-full opacity-20 blur-xl" />
               <div className="relative bg-white rounded-full flex items-center justify-center border-4 border-primary/20 shadow-lg">
-                <Image
+                {/* Use standard img for preview compatibility */}
+                <img
                   src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Talarite%20new%20logo-02-LqLwTaQj77YS1jGv22EJZL2OuBuXAB.png"
                   alt={SITE_NAME}
                   width={100}
                   height={100}
                   className="object-contain p-2"
+                  style={{ display: 'block' }}
                 />
               </div>
             </div>
@@ -47,7 +49,7 @@ export default function LandingPage() {
             <Button
               asChild
               size="lg"
-              className="bg-gradient-to-r from-red-600 to-yellow-600 hover:from-red-700 hover:to-yellow-700 text-white shadow-lg font-semibold"
+              className="bg-gradient-to-r from-green-600 to-green-400 hover:from-green-700 hover:to-green-500 text-white shadow-lg font-semibold"
             >
               <Link href="/create-account" className="inline-flex items-center gap-2">
                 Create Account
@@ -58,7 +60,7 @@ export default function LandingPage() {
               asChild
               size="lg"
               variant="outline"
-              className="border-2 border-primary text-primary hover:bg-primary/5 font-semibold"
+              className="border-2 border-green-600 text-green-700 hover:bg-green-50 font-semibold"
             >
               <Link href="/login">Log In</Link>
             </Button>
@@ -116,7 +118,7 @@ export default function LandingPage() {
           <Button
             asChild
             size="lg"
-            className="bg-primary hover:bg-primary/90 text-primary-foreground"
+            className="bg-green-600 hover:bg-green-700 text-white"
           >
             <Link href="/signup">Start Free Today</Link>
           </Button>

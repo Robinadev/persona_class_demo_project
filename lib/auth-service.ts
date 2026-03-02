@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 import type { UserRole } from './rbac';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabaseUrl ='https://ywehykavcuxcvitqoqus.supabase.co';
+const supabaseKey ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl3ZWh5a2F2Y3V4Y3ZpdHFvcXVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5OTE3MjUsImV4cCI6MjA4NzU2NzcyNX0.I5bqN8z1WesXahFliuZEl0SpJGah3_UlHrez_Ns8Ej4' ;
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
