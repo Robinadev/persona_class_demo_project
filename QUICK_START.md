@@ -1,314 +1,322 @@
-# Talaritel RBAC - Quick Start Guide
+# Quick Start Guide - International Calling App
 
-Get up and running with the complete role-based access control system in 5 minutes.
+Get up and running with SMS OTP authentication and real-time sync in 5 minutes.
 
 ## Prerequisites
 
 - Supabase project created and connected
 - Environment variables configured
 - Node.js 18+ installed
+- React Native/Expo for mobile app
 
-## Step 1: Verify Database Setup (1 min)
+## Step 1: Setup Environment Variables (2 min)
 
-The database migrations are already applied. Verify by checking Supabase:
+Create `.env.local` in the project root:
 
-1. Open your Supabase project dashboard
-2. Go to SQL Editor
-3. Run this query to verify tables exist:
-
-```sql
-SELECT table_name FROM information_schema.tables 
-WHERE table_schema = 'public' AND table_name IN (
-  'profiles', 'admin_users', 'user_roles', 'role_permissions',
-  'activity_logs', 'audit_logs'
-);
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+JWT_SECRET=your_super_secret_jwt_key_32_chars_min
 ```
 
-Expected result: 6 tables returned
+For mobile app, update `mobile/app.json`:
+```json
+{
+  "expo": {
+    "extra": {
+      "apiUrl": "http://localhost:3000/api",
+      "supabaseUrl": "your_supabase_url",
+      "supabaseKey": "your_anon_key"
+    }
+  }
+}
+```
 
-## Step 2: Start the Development Server (1 min)
+## Step 2: Verify Database Setup (1 min)
 
+Database migration already executed. Verify by checking Supabase dashboard:
+
+Tables created:
+- ✅ `users` - User accounts
+- ✅ `otp_codes` - Verification codes
+- ✅ `sessions` - Auth sessions
+- ✅ `sync_events` - Real-time events
+- ✅ `call_logs` - Call history
+- ✅ `device_info` - Device data
+- ✅ `user_settings` - Preferences
+
+## Step 3: Start Development (1 min)
+
+### Web App
 ```bash
-npm install
 npm run dev
+# Opens http://localhost:3000
 ```
 
-Visit `http://localhost:3000` - you should see the beautiful landing page with Ethiopian colors.
-
-## Step 3: Create Your First Account (1.5 min)
-
-### Create a Regular User
-1. Click "Create Account" on landing page
-2. Fill in details:
-   - Full Name: Your Name
-   - Email: yourname@test.com
-   - Password: Password123!
-   - Account Type: **Regular User**
-3. Click "Create Account"
-4. **Redirects to:** `/dashboard/user`
-
-### Create an Admin
-1. Click "Create Account" again
-2. Fill in details:
-   - Full Name: Admin Name
-   - Email: admin@test.com
-   - Password: Password123!
-   - Account Type: **Administrator**
-3. Click "Create Account"
-4. **Redirects to:** `/dashboard/admin`
-
-### Create a Super Admin
-To create a super admin account:
-
-1. First, create an account with "Administrator" type
-2. Then, go to Supabase SQL Editor
-3. Run:
-
-```sql
-UPDATE profiles 
-SET role = 'super_admin', updated_at = NOW() 
-WHERE email = 'admin@test.com';
-```
-
-4. Sign out and sign back in
-5. **Redirects to:** `/dashboard/super-admin`
-
-## Step 4: Test Role-Based Access (1.5 min)
-
-### Test 1: Role Hierarchy
-1. Login as regular user
-2. Try navigating to `/dashboard/admin` manually
-3. **Expected:** Redirect back to user dashboard
-
-### Test 2: Dashboard Styling
-1. Login as super admin
-2. Notice red/yellow theme gradient
-3. Logout and login as admin
-4. Notice amber/orange theme
-
-### Test 3: Role Switching
-1. Super admin updates own role:
-   ```sql
-   UPDATE profiles 
-   SET role = 'user'
-   WHERE email = 'superadmin@test.com';
-   ```
-2. Refresh or sign out/in
-3. **Expected:** Redirected to user dashboard
-
-## Step 5: Explore Features (optional)
-
-### View Activity Logs
-1. Login as super admin
-2. Click "Activity Logs" in dashboard
-3. See all user actions logged
-
-### Update User Role (API)
+### Mobile App
 ```bash
-curl -X POST http://localhost:3000/api/auth/update-user-role \
-  -H "Authorization: Bearer YOUR_SUPER_ADMIN_TOKEN" \
+cd mobile
+npx expo start
+# Scan QR code with Expo Go app
+```
+
+## Step 4: Test SMS OTP Flow (1.5 min)
+
+### Web App Login
+1. Go to http://localhost:3000/login
+2. Enter USA phone: `5551234567` or `+1 (555) 123-4567`
+3. Click "Send Verification Code"
+4. **Check browser console for OTP code** (logged in dev mode)
+5. Enter 6-digit code
+6. Click "Log In"
+7. Redirects to home - **Success!**
+
+### Mobile App Login
+1. Launch mobile app
+2. Enter phone: `5551234567`
+3. Tap "Send Verification Code"
+4. **Check console for OTP code**
+5. Enter 6-digit code
+6. Tap "Verify & Login"
+7. Navigates to main app - **Success!**
+
+## Step 5: Test Real-Time Sync (1.5 min)
+
+### From Web App
+```javascript
+// Open browser console (F12)
+import RealTimeSync from "@/lib/sync-service";
+
+const userId = localStorage.getItem("user_id");
+const sync = new RealTimeSync(userId);
+
+await sync.logCall({
+  recipientPhoneNumber: "+15559876543",
+  duration: 300,
+  startTime: new Date().toISOString(),
+  endTime: new Date().toISOString(),
+  status: "completed"
+});
+
+console.log("Check Supabase dashboard - sync_events table");
+```
+
+### From Mobile App (React Native)
+```typescript
+import MobileRealTimeSync from '@/services/sync';
+
+const userId = await AsyncStorage.getItem('user_id');
+const sync = new MobileRealTimeSync(userId);
+
+await sync.logCall({
+  recipientPhoneNumber: "+15559876543",
+  duration: 300,
+  startTime: new Date().toISOString(),
+  endTime: new Date().toISOString(),
+  status: "completed"
+});
+
+// Event queued and synced when online
+```
+
+## Color Theme
+
+All UI uses **International Teal Theme**:
+- Primary: `#038E7D` (Teal)
+- Hover: `#026B5E` (Dark Teal)
+- Active: `#015248` (Darkest Teal)
+- Background: `#FFFFFF`
+- Secondary: `#E0F5F2` (Light Teal)
+
+Theme is consistent across:
+- ✅ Web app
+- ✅ Mobile app
+- ✅ Admin panel
+- ✅ All buttons/links
+
+## API Endpoints Reference
+
+### OTP Authentication
+```bash
+# Send OTP
+curl -X POST http://localhost:3000/api/auth/send-otp \
   -H "Content-Type: application/json" \
-  -d '{
-    "targetUserId": "user-uuid",
-    "newRole": "admin"
-  }'
+  -d '{"phoneNumber": "5551234567"}'
+
+# Verify OTP
+curl -X POST http://localhost:3000/api/auth/verify-otp \
+  -H "Content-Type: application/json" \
+  -d '{"phoneNumber": "+15551234567", "code": "123456"}'
+
+# Resend OTP
+curl -X POST http://localhost:3000/api/auth/resend-otp \
+  -H "Content-Type: application/json" \
+  -d '{"phoneNumber": "+15551234567"}'
 ```
 
-### Check User Role
+### Real-Time Sync
 ```bash
-curl -X GET http://localhost:3000/api/auth/check-role \
+# Create sync event
+curl -X POST http://localhost:3000/api/sync/events \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -d '{
+    "eventType": "call_log",
+    "data": {"recipientPhoneNumber": "+15559876543", "duration": 120}
+  }'
+
+# Get sync events
+curl -X GET http://localhost:3000/api/sync/events \
   -H "Authorization: Bearer YOUR_TOKEN"
+
+# Update event status
+curl -X PATCH http://localhost:3000/api/sync/events \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -d '{"eventId": "event-id", "status": "synced"}'
 ```
 
-## File Overview
-
-Key files for the RBAC system:
+## Key Files
 
 ### Authentication
-- `/app/(auth)/login/page.tsx` - Login interface
-- `/app/(auth)/create-account/page.tsx` - Account creation
+- `app/api/auth/send-otp/route.ts` - Send SMS code
+- `app/api/auth/verify-otp/route.ts` - Verify code
+- `app/login/page.tsx` - Web login UI
+- `mobile/app/screens/auth/LoginScreen.tsx` - Mobile login
 
-### Dashboards
-- `/app/dashboard/super-admin/page.tsx` - Super admin view
-- `/app/dashboard/admin/page.tsx` - Admin view
-- `/app/dashboard/support/page.tsx` - Support view
-- `/app/dashboard/user/page.tsx` - User view
+### Sync System
+- `lib/sync-service.ts` - Web sync service
+- `mobile/app/services/sync.ts` - Mobile sync service
+- `app/api/sync/events/route.ts` - Sync API endpoint
 
-### Core Logic
-- `/lib/rbac.ts` - Role definitions
-- `/lib/auth-service.ts` - Auth integration
-- `/hooks/use-role.ts` - Role checking hooks
-- `/components/role-guard.tsx` - Protected components
-
-### Database
-- `/supabase/migrations/20260225_comprehensive_rbac_schema.sql` - RBAC schema
-
-## Key Features to Test
-
-### 1. Automatic Dashboard Redirect
-- Different roles see different dashboards automatically
-- Color themes match role type
-
-### 2. Activity Logging
-- Every login is logged
-- Role changes are tracked
-- View logs in super admin dashboard
-
-### 3. Permission Hierarchy
-- Super admin > Admin > Support > User
-- Higher roles can access lower role dashboards (via API)
-
-### 4. Secure APIs
-- Role verification on all protected endpoints
-- Activity tracking for admin changes
+### Utilities
+- `lib/phone-utils.ts` - Phone validation & formatting
 
 ## Common Tasks
 
-### Add Permission Check to Component
-```tsx
-import { useRole } from '@/hooks/use-role';
-
-export function MyComponent() {
-  const { hasPermission } = useRole();
-  
-  if (!hasPermission('manage_users')) {
-    return <div>Access Denied</div>;
-  }
-  
-  return <div>User Management</div>;
-}
-```
-
-### Protect a Page
-```tsx
-import { RoleGuard } from '@/components/role-guard';
-
-export default function AdminPage() {
-  return (
-    <RoleGuard requiredRole="admin" fallbackUrl="/dashboard/user">
-      <h1>Admin Content</h1>
-    </RoleGuard>
-  );
-}
-```
-
-### Check Server-Side
+### Validate Phone Number
 ```typescript
-import { isSuperAdmin } from '@/lib/permissions';
+import { validateAndNormalizePhone } from "@/lib/phone-utils";
 
-export async function GET(request: NextRequest) {
-  const userId = 'user-id';
-  
-  if (!await isSuperAdmin(userId)) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
-  
-  // Handle request
-}
+validateAndNormalizePhone("5551234567")
+// Returns: "+15551234567"
+
+validateAndNormalizePhone("+1 (555) 123-4567")
+// Returns: "+15551234567"
+```
+
+### Format Phone for Display
+```typescript
+import { formatPhoneForDisplay, maskPhone } from "@/lib/phone-utils";
+
+formatPhoneForDisplay("+15551234567")
+// Returns: "(555) 123-4567"
+
+maskPhone("+15551234567")
+// Returns: "+1 555 ***-****"
+```
+
+### Queue Offline Event (Mobile)
+```typescript
+const sync = new MobileRealTimeSync(userId);
+
+// Automatically queues if offline
+await sync.updateUserProfile({
+  name: "John Doe",
+  avatar_url: "https://..."
+});
+
+// Auto-syncs when online
 ```
 
 ## Troubleshooting
 
-### Issue: "Unauthorized" on login
-**Solution:** Check environment variables are set in Vercel
+### "OTP Code Not Found"
+1. Check browser console for logged OTP
+2. Code expires in 10 minutes
+3. Max 5 attempts per code
 
-### Issue: Wrong dashboard displayed
-**Solution:** Clear browser cache (Ctrl+Shift+Delete)
+### "Phone Number Invalid"
+1. Must be USA number
+2. Remove special characters
+3. Use 10 digits or with +1
 
-### Issue: Database tables missing
-**Solution:** Re-run migrations in Supabase SQL Editor
+### "Supabase Error"
+1. Check `.env.local` variables
+2. Verify Supabase project is active
+3. Check database tables exist
 
-### Issue: Can't update role
-**Solution:** Verify you're logged in as super admin
+### "Sync Not Working"
+1. Verify user is logged in
+2. Check JWT token exists
+3. Ensure internet connection
+4. Review Supabase dashboard
 
 ## Next Steps
 
-1. **Customize Dashboards** - Add your business logic
-2. **Add New Roles** - Extend the role system if needed
-3. **Create Admin Panel** - Build management UI
-4. **Set Up Notifications** - Alert on role changes
-5. **Configure 2FA** - Enhance security for admins
+1. **Integrate SMS Provider** - Update `sendSMS()` in send-otp endpoint
+2. **Add Call Features** - Implement calling screen
+3. **Build Admin Dashboard** - Monitor user activity
+4. **Setup Notifications** - Real-time call alerts
+5. **Production Deployment** - Set JWT_SECRET, enable RLS
 
-## Learn More
+## Testing Checklist
 
-- **Full Documentation:** See `RBAC_DOCUMENTATION.md`
-- **Testing Guide:** See `TEST_ACCOUNTS_SETUP.md`
-- **Implementation Details:** See `IMPLEMENTATION_SUMMARY.md`
+- [ ] Web login with OTP
+- [ ] Mobile login with OTP
+- [ ] Resend OTP code
+- [ ] Real-time sync events
+- [ ] Phone number validation
+- [ ] Teal color theme visible
+- [ ] Responsive on mobile
+- [ ] Offline queue and sync
+- [ ] Admin sync event viewing
 
-## Test Credentials Template
+## Useful Commands
 
-Create these accounts for testing:
+```bash
+# Web app
+npm run dev          # Start dev server
+npm run build        # Build for production
+npm run lint         # Run linter
 
-| Role | Email | Password |
-|------|-------|----------|
-| Super Admin | superadmin@test.com | TestPass123! |
-| Admin | admin@test.com | TestPass123! |
-| Support | support@test.com | TestPass123! |
-| User | user@test.com | TestPass123! |
+# Mobile app
+cd mobile
+npx expo start       # Start development
+npx expo build       # Build for iOS/Android
+npx expo prebuild    # Prebuild native code
 
-## API Reference
-
-### Authentication Endpoints
-
-**Check Role**
-```
-POST /api/auth/check-role
-Headers: Authorization: Bearer TOKEN
-Body: { "requiredRoles": ["admin", "super_admin"] }
-```
-
-**Get Current Role**
-```
-GET /api/auth/check-role
-Headers: Authorization: Bearer TOKEN
+# Database
+# Visit: https://app.supabase.com
+# Click "SQL Editor" to run queries
 ```
 
-**Update User Role** (Super Admin Only)
+## File Structure
+
 ```
-POST /api/auth/update-user-role
-Headers: Authorization: Bearer SUPER_ADMIN_TOKEN
-Body: { "targetUserId": "uuid", "newRole": "admin" }
+├── app/
+│   ├── api/auth/              # OTP endpoints
+│   ├── api/sync/              # Sync endpoints
+│   ├── login/page.tsx         # Web login
+│   └── signup/page.tsx        # Web signup
+├── mobile/
+│   └── app/screens/auth/      # Mobile auth
+├── lib/
+│   ├── phone-utils.ts         # Phone helpers
+│   └── sync-service.ts        # Web sync
+└── scripts/
+    └── 01-create-otp-table.sql # DB migrations
 ```
 
-## Design System
+## Documentation
 
-### Colors
-- **Primary:** `#CE1126` (Ethiopian Red)
-- **Secondary:** `#F4D03F` (Ethiopian Yellow)
-- **Accent:** `#078930` (Ethiopian Green)
-
-### Breakpoints
-- Mobile: < 640px
-- Tablet: 640px - 1024px
-- Desktop: > 1024px
-
-## Performance Tips
-
-1. **Activity Logging** - Disable in development if needed
-2. **Database Queries** - Use indexes on frequently queried fields
-3. **RLS Policies** - Ensure they're optimized for your use case
-
-## Security Best Practices
-
-1. ✅ Never store tokens in localStorage
-2. ✅ Always verify roles server-side
-3. ✅ Use HTTPS in production
-4. ✅ Enable RLS on all tables
-5. ✅ Rotate secrets regularly
-
-## Deployment
-
-When deploying to production:
-
-1. Set environment variables in Vercel
-2. Ensure Supabase is in production mode
-3. Enable RLS on all tables
-4. Set up activity log retention
-5. Configure email notifications
-6. Enable audit logging
+- **Full Guide:** See `IMPLEMENTATION_GUIDE.md`
+- **All Changes:** See `CHANGES_SUMMARY.md`
+- **This Guide:** `QUICK_START.md`
 
 ---
 
-**Congratulations!** You now have a fully functional role-based access control system with beautiful Ethiopian-inspired design. 
+**You're ready!** 
 
-Start building amazing features! 🚀
+Now test the OTP flow, then integrate your SMS provider for production. See `IMPLEMENTATION_GUIDE.md` for detailed instructions.

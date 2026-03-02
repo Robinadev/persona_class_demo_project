@@ -7,16 +7,19 @@ export const SUPABASE_URL = ENV?.supabaseUrl || '';
 export const SUPABASE_KEY = ENV?.supabaseKey || '';
 
 export const COLORS = {
-  primary: '#CE1126', // Ethiopian red
-  secondary: '#F4D03F', // Ethiopian yellow
-  tertiary: '#078930', // Ethiopian green
+  primary: '#038E7D', // International Teal
+  primaryHover: '#026B5E', // Darker Teal
+  primaryActive: '#015248', // Even darker Teal
+  secondary: '#E0F5F2', // Light Teal background
+  tertiary: '#026B5E', // Dark Teal
   background: '#FFFFFF',
-  foreground: '#000000',
+  foreground: '#1F2937',
   border: '#E5E7EB',
-  error: '#DC2626',
-  success: '#16A34A',
-  warning: '#EA8C55',
+  error: '#EF4444',
+  success: '#10B981',
+  warning: '#F59E0B',
   info: '#3B82F6',
+  muted: '#6B7280',
 };
 
 export const ROLE_LABELS = {
@@ -27,8 +30,8 @@ export const ROLE_LABELS = {
 };
 
 export const ROLE_COLORS: Record<string, string> = {
-  super_admin: '#CE1126',
-  admin: '#F4D03F',
-  support: '#078930',
+  super_admin: '#038E7D',
+  admin: '#026B5E',
+  support: '#015248',
   user: '#9CA3AF',
 };
