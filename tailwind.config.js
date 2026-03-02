@@ -20,6 +20,9 @@ module.exports = {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          hover: "#026B5E",
+          active: "#015248",
+          light: "#E0F5F2",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -45,11 +48,19 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        /* Ethiopian cultural colors */
-        "eth-red": "#CE1126",
-        "eth-gold": "#FFE135",
-        "eth-green": "#007A5E",
-        "eth-dark": "#1a1a1a",
+        /* International Calling Teal */
+        teal: {
+          50: "#E0F5F2",
+          100: "#C1EBE6",
+          200: "#A2E1D9",
+          300: "#5DC4AD",
+          400: "#3BA895",
+          500: "#038E7D",
+          600: "#026B5E",
+          700: "#015248",
+          800: "#003A38",
+          900: "#001F1D",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

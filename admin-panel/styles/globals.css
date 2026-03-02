@@ -3,13 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --primary: #CE1126;
-  --secondary: #F4D03F;
-  --tertiary: #078930;
+  --primary: #038E7D;
+  --secondary: #E0F5F2;
+  --tertiary: #026B5E;
   --background: #FFFFFF;
-  --foreground: #000000;
+  --foreground: #1F2937;
   --muted-foreground: #6B7280;
   --border: #E5E7EB;
+  --hover-primary: #026B5E;
+  --active-primary: #015248;
+  --success: #10B981;
+  --error: #EF4444;
+  --warning: #F59E0B;
 }
 
 * {

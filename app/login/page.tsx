@@ -31,10 +31,10 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-green-50 to-green-100">
-      <Card className="w-[350px] bg-white/80 backdrop-blur-sm border-green-200">
+    <div className="flex min-h-screen items-center justify-center bg-secondary">
+      <Card className="w-[350px] bg-white/90 backdrop-blur-sm border-primary/20">
         <CardHeader>
-          <CardTitle className="text-2xl text-center text-[#038E7D]">Login</CardTitle>
+          <CardTitle className="text-2xl text-center text-primary">Login</CardTitle>
         </CardHeader>
         <CardContent>
           {!isVerificationSent ? (
@@ -52,7 +52,7 @@ export default function LoginPage() {
                   />
                 </div>
               </div>
-              <Button className="w-full mt-6 bg-[#038E7D] hover:bg-[#025E52] text-white" type="submit">
+              <Button className="w-full mt-6 bg-primary hover:bg-primary/90 text-primary-foreground" type="submit">
                 Send Verification Code
               </Button>
             </form>
@@ -71,7 +71,7 @@ export default function LoginPage() {
                   />
                 </div>
               </div>
-              <Button className="w-full mt-6 bg-[#038E7D] hover:bg-[#025E52] text-white" type="submit">
+              <Button className="w-full mt-6 bg-primary hover:bg-primary/90 text-primary-foreground" type="submit">
                 Log In
               </Button>
             </form>
@@ -80,13 +80,13 @@ export default function LoginPage() {
         <CardFooter className="flex flex-col items-center space-y-2">
           <p className="text-sm text-muted-foreground">
             Don't have an account?{" "}
-            <Link href="/signup" className="text-[#038E7D] hover:text-[#025E52] hover:underline">
+            <Link href="/signup" className="text-primary hover:text-accent hover:underline font-medium">
               Create Account
             </Link>
           </p>
           <p className="text-xs text-muted-foreground">
             If you haven't received a verification code,{" "}
-            <Link href="/request-code" className="text-[#038E7D] hover:text-[#025E52] hover:underline">
+            <Link href="/request-code" className="text-primary hover:text-accent hover:underline font-medium">
               request a new one
             </Link>
           </p>

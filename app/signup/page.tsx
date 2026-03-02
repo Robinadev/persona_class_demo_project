@@ -51,10 +51,10 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-green-50 to-green-100">
-      <Card className="w-[400px] bg-white/80 backdrop-blur-sm border-green-200">
+    <div className="flex min-h-screen items-center justify-center bg-secondary">
+      <Card className="w-[400px] bg-white/90 backdrop-blur-sm border-primary/20">
         <CardHeader>
-          <CardTitle className="text-2xl text-center text-[#038E7D]">
+          <CardTitle className="text-2xl text-center text-primary">
             {step === 1 ? "Create Account" : step === 2 ? "Verify Phone Number" : "Confirm and Continue"}
           </CardTitle>
         </CardHeader>
@@ -112,13 +112,13 @@ export default function SignUpPage() {
                   />
                   <Label htmlFor="terms" className="text-sm">
                     I accept the{" "}
-                    <Link href="/legal" className="text-[#038E7D] hover:text-[#025E52] hover:underline">
+                    <Link href="/legal" className="text-primary hover:text-accent hover:underline font-medium">
                       Terms and Conditions
                     </Link>
                   </Label>
                 </div>
               </div>
-              <Button className="w-full mt-6 bg-[#038E7D] hover:bg-[#025E52] text-white" type="submit">
+              <Button className="w-full mt-6 bg-primary hover:bg-primary/90 text-primary-foreground" type="submit">
                 Send Verification Code
               </Button>
             </form>
@@ -126,7 +126,7 @@ export default function SignUpPage() {
           {step === 2 && (
             <form onSubmit={handleVerifyCode}>
               <div className="grid w-full items-center gap-4">
-                <p className="text-center text-sm text-[#025E52]">
+                <p className="text-center text-sm text-accent">
                   We've sent a verification code to your phone number: {phoneNumber}
                 </p>
                 <div className="flex flex-col space-y-1.5">
@@ -145,16 +145,16 @@ export default function SignUpPage() {
                 <Button type="button" variant="outline" onClick={handleGoBack} className="flex items-center">
                   <ArrowLeft className="mr-2 h-4 w-4" /> Back
                 </Button>
-                <Button type="submit" className="bg-[#038E7D] hover:bg-[#025E52] text-white">
+                <Button type="submit" className="bg-primary hover:bg-primary/90 text-primary-foreground">
                   Verify Code
                 </Button>
               </div>
-              <p className="text-center mt-4 text-sm text-[#025E52]">
+              <p className="text-center mt-4 text-sm text-accent">
                 Didn't receive the code?{" "}
                 <button
                   type="button"
                   onClick={handleSendVerification}
-                  className="text-[#038E7D] hover:text-[#025E52] hover:underline"
+                  className="text-primary hover:text-accent hover:underline font-medium"
                 >
                   Resend
                 </button>
@@ -164,18 +164,18 @@ export default function SignUpPage() {
           {step === 3 && (
             <form onSubmit={handleConfirmAndContinue}>
               <div className="text-center">
-                <p className="mb-4 text-[#025E52]">Your account is ready to be created.</p>
-                <p className="mb-2 text-[#038E7D]">
+                <p className="mb-4 text-accent">Your account is ready to be created.</p>
+                <p className="mb-2 text-primary">
                   Name: {firstName} {lastName}
                 </p>
-                <p className="mb-2 text-[#038E7D]">Email: {email}</p>
-                <p className="mb-4 text-[#038E7D]">Phone: {phoneNumber}</p>
+                <p className="mb-2 text-primary">Email: {email}</p>
+                <p className="mb-4 text-primary">Phone: {phoneNumber}</p>
               </div>
               <div className="flex justify-between mt-6">
                 <Button type="button" variant="outline" onClick={handleGoBack} className="flex items-center">
                   <ArrowLeft className="mr-2 h-4 w-4" /> Back
                 </Button>
-                <Button type="submit" className="bg-[#038E7D] hover:bg-[#025E52] text-white">
+                <Button type="submit" className="bg-primary hover:bg-primary/90 text-primary-foreground">
                   Confirm and Continue
                 </Button>
               </div>
@@ -185,7 +185,7 @@ export default function SignUpPage() {
         <CardFooter className="flex justify-center">
           <p className="text-sm text-muted-foreground">
             Already have an account?{" "}
-            <Link href="/login" className="text-[#038E7D] hover:text-[#025E52] hover:underline">
+            <Link href="/login" className="text-primary hover:text-accent hover:underline font-medium">
               Log In
             </Link>
           </p>

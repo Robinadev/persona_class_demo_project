@@ -4,69 +4,69 @@
 
 @layer base {
   :root {
-    /* Ethiopian theme - Flag colors: Red, Yellow, Green + Golds & Earth Tones */
-    --background: 40 100% 97%;
-    --foreground: 10 20% 15%;
+    /* International Calling Standard - Teal Theme */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 10 20% 15%;
+    --card-foreground: 0 0% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 10 20% 15%;
+    --popover-foreground: 0 0% 15%;
 
-    /* Primary: Deep Red from Ethiopian Flag */
-    --primary: 0 75% 38%;
+    /* Primary: International Teal (#038E7D) */
+    --primary: 169 92% 27%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary: Gold/Yellow from Ethiopian culture */
-    --secondary: 45 95% 48%;
-    --secondary-foreground: 10 20% 15%;
+    /* Secondary: Light Teal for backgrounds */
+    --secondary: 169 100% 95%;
+    --secondary-foreground: 0 0% 15%;
 
-    /* Accent: Ethiopian Green */
-    --accent: 120 60% 35%;
+    /* Accent: Darker Teal for hover/active states */
+    --accent: 169 92% 20%;
     --accent-foreground: 0 0% 100%;
 
-    --muted: 30 20% 85%;
-    --muted-foreground: 10 15% 40%;
+    --muted: 0 0% 92%;
+    --muted-foreground: 0 0% 45%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 30 25% 88%;
+    --border: 0 0% 90%;
     --input: 0 0% 100%;
-    --ring: 0 75% 38%;
+    --ring: 169 92% 27%;
 
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 10 25% 8%;
-    --foreground: 40 100% 95%;
+    --background: 0 0% 8%;
+    --foreground: 0 0% 98%;
 
-    --card: 15 30% 12%;
-    --card-foreground: 40 100% 95%;
+    --card: 169 40% 12%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 10 25% 8%;
-    --popover-foreground: 40 100% 95%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 0 85% 50%;
-    --primary-foreground: 10 25% 8%;
+    --primary: 169 92% 45%;
+    --primary-foreground: 0 0% 8%;
 
-    --secondary: 45 95% 55%;
-    --secondary-foreground: 10 25% 8%;
+    --secondary: 169 60% 25%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 15 20% 25%;
-    --muted-foreground: 40 20% 70%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 70%;
 
-    --accent: 120 70% 45%;
-    --accent-foreground: 10 25% 8%;
+    --accent: 169 92% 35%;
+    --accent-foreground: 0 0% 8%;
 
     --destructive: 0 75% 55%;
-    --destructive-foreground: 10 25% 8%;
+    --destructive-foreground: 0 0% 8%;
 
-    --border: 15 30% 20%;
-    --input: 15 20% 18%;
-    --ring: 0 85% 50%;
+    --border: 169 40% 20%;
+    --input: 169 40% 15%;
+    --ring: 169 92% 45%;
   }
 }
 
@@ -100,10 +100,12 @@ stripe-buy-button > div > div {
 
 stripe-buy-button > div > div > button {
   width: 100% !important;
-  background-color: #038e7d !important;
+  background-color: #038E7D !important;
   color: white !important;
+  border-radius: 0.5rem;
 }
 
 stripe-buy-button > div > div > button:hover {
-  background-color: #025e52 !important;
+  background-color: #026B5E !important;
+  transition: background-color 0.2s ease;
 }
