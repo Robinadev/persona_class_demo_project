@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator();
 
 export default function RootNavigator() {
   const { isSignedIn, isLoading } = useAuth();
-  const [initialRoute, setInitialRoute] = useState<'Landing' | 'Auth' | 'App' | null>(null);
+  const [initialRoute, setInitialRoute] = useState<'Landing' | 'Login' | 'AppRoot' | null>(null);
 
   useEffect(() => {
     checkInitialRoute();
@@ -23,15 +23,15 @@ export default function RootNavigator() {
 
   const checkInitialRoute = async () => {
     if (isSignedIn) {
-      setInitialRoute('App');
+      setInitialRoute('AppRoot');
     } else {
       const token = await AsyncStorage.getItem('auth_token');
       const hasSeenLanding = await AsyncStorage.getItem('has_seen_landing');
       
       if (token) {
-        setInitialRoute('App');
+        setInitialRoute('AppRoot');
       } else if (hasSeenLanding) {
-        setInitialRoute('Auth');
+        setInitialRoute('Login');
       } else {
         setInitialRoute('Landing');
       }
@@ -40,7 +40,7 @@ export default function RootNavigator() {
 
   const handleLandingComplete = async () => {
     await AsyncStorage.setItem('has_seen_landing', 'true');
-    setInitialRoute('Auth');
+    setInitialRoute('Login');
   };
 
   if (isLoading || !initialRoute) {
@@ -53,48 +53,39 @@ export default function RootNavigator() {
         initialRouteName={initialRoute}
         screenOptions={{
           headerShown: false,
-          cardStyle: { backgroundColor: COLORS.background },
+          contentStyle: { backgroundColor: COLORS.background }, // Use contentStyle instead of cardStyle
         }}
       >
-        {/* Landing/Onboarding */}
-        {initialRoute === 'Landing' && (
-          <Stack.Screen
-            name="Landing"
-            component={LandingScreen}
-            options={{ animationEnabled: false }}
-          />
-        )}
-
-        {/* Auth Stack */}
-        {!isSignedIn ? (
-          <>
-            <Stack.Screen
-              name="Login"
-              component={LoginScreen}
-              options={{
-                animationEnabled: true,
-                gestureEnabled: false,
-              }}
-            />
-            <Stack.Screen
-              name="Signup"
-              component={SignupScreen}
-              options={{
-                animationEnabled: true,
-                gestureEnabled: true,
-              }}
-            />
-          </>
-        ) : null}
-
-        {/* App Stack */}
-        {isSignedIn && (
-          <Stack.Screen
-            name="AppRoot"
-            component={AppStack}
-            options={{ animationEnabled: false }}
-          />
-        )}
+        {/* Always include all screens but conditionally render based on auth state */}
+        <Stack.Screen 
+          name="Landing" 
+          component={LandingScreen}
+          options={{ animation: 'none' }} // Use animation instead of animationEnabled
+        />
+        
+        <Stack.Screen 
+          name="Login" 
+          component={LoginScreen}
+          options={{ 
+            animation: 'slide_from_right',
+            gestureEnabled: false 
+          }}
+        />
+        
+        <Stack.Screen 
+          name="Signup" 
+          component={SignupScreen}
+          options={{ 
+            animation: 'slide_from_right',
+            gestureEnabled: true 
+          }}
+        />
+        
+        <Stack.Screen 
+          name="AppRoot" 
+          component={AppStack}
+          options={{ animation: 'none' }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
