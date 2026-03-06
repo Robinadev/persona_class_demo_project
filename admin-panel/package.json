@@ -1,7 +1,7 @@
 {
-  "name": "talateri-admin-panel",
+  "name": "talari-admin-panel",
   "version": "1.0.0",
-  "description": "Talateri Web Admin Panel",
+  "description": "Talari Web Admin Panel",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

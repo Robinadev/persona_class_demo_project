@@ -23,7 +23,6 @@ const nextConfig = {
     formats: ['image/webp', 'image/avif'],
   },
   // Optimize for Vercel deployment
-  swcMinify: true,
   compress: true,
   // Enable static optimization
   staticPageGenerationTimeout: 300,

@@ -1,7 +1,7 @@
 import { Home, Phone, Wallet, SendHorizontal, User, HelpCircle, Settings, Gift, FileText } from "lucide-react"
 import { NineDotsIcon } from "@/components/icons/nine-dots-icon"
 
-export const SITE_NAME = "TalariTel"
+export const SITE_NAME = "Talari"
 
 export const NAVIGATION_ITEMS = [
   { name: "Home", href: "/", icon: Home },
