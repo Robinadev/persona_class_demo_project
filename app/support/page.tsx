@@ -29,7 +29,7 @@ export default function SupportPage() {
               </p>
               <Button 
                 className="w-full bg-[#038E7D] hover:bg-[#025E52] text-white"
-                onClick={() => window.location.href = 'mailto:support@talaritel.com'}
+                onClick={() => window.location.href = 'mailto:support@talari.com'}
               >
                 Email Us
               </Button>

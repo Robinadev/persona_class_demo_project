@@ -9,10 +9,10 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Talaritel - Global Telecom',
-  description: 'Connect with Ethiopia seamlessly. Fast, reliable, and culturally connected telecom services for modern Africa.',
+  title: 'Talari - Global Telecom',
+  description: 'Connect with ease. Fast, reliable, and culturally connected telecom services for modern Africa.',
   generator: 'v0.app',
-  keywords: ['telecom', 'communication', 'Ethiopia', 'calls', 'messaging', 'international'],
+  keywords: ['telecom', 'communication', 'calls', 'messaging', 'international'],
   icons: {
     icon: [
       {
@@ -37,7 +37,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: '#CE1126',
+  themeColor: '#038E7D',
 }
 
 export default function RootLayout({

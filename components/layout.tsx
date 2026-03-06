@@ -44,11 +44,11 @@ export function Layout({ children, userId, userName }: { children: ReactNode; us
     <div className="min-h-screen bg-background flex flex-col">
       <header className="sticky top-0 z-50 w-full border-b border-[#038E7D]/20 bg-[#F0FFF9] shadow-sm">
         <div className="container flex h-20 items-center justify-between px-1 sm:px-2">
-          <span className="text-2xl font-normal text-[#038E7D] pl-4">Talaritel</span>
+          <span className="text-2xl font-normal text-[#038E7D] pl-4">Talari</span>
           <Link href="/" className="absolute left-[51%] transform -translate-x-1/2">
             <div className="relative w-[55px] h-[55px]">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Talarite%20new%20logo-02-LqLwTaQj77YS1jGv22EJZL2OuBuXAB.png"
+                src="/talari-logo.jpg"
                 alt={SITE_NAME}
                 fill
                 sizes="(max-width: 768px) 55px, 55px"

@@ -7,12 +7,8 @@ const geistSans = Geist({ subsets: ['latin'] })
 const geistMono = Geist_Mono({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Talateri Admin Panel',
-  description: 'Manage Talateri users, transactions, and analytics',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-  },
+  title: 'Talari Admin Panel',
+  description: 'Manage Talari users, transactions, and analytics',
 }
 
 export default function RootLayout({
