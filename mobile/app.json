@@ -1,11 +1,14 @@
 {
   "expo": {
-    "name": "Talateri",
-    "slug": "talateri-mobile",
+    "name": "Talari",
+    "slug": "talari-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "backgroundColor": "#FFFFFF",
+    "primaryColor": "#038E7D",
+    "scheme": "talari",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -16,14 +19,16 @@
     ],
     "ios": {
       "supportsTabletMode": true,
-      "bundleIdentifier": "com.talateri.mobile"
+      "bundleIdentifier": "com.talari.mobile",
+      "buildNumber": "1"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#038E7D"
       },
-      "package": "com.talateri.mobile"
+      "package": "com.talari.mobile",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
