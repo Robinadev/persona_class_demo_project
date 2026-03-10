@@ -13,6 +13,7 @@ const publicRoutes = [
   '/signup',
   '/create-account',
   '/account/type-selection',
+  '/support',
   '/admin/login',
   '/api/auth/callback',
 ]
