@@ -275,6 +275,12 @@ export default function CreateAccountPage() {
                     Sign In
                   </Link>
                 </p>
+                <p className="text-sm text-muted-foreground mt-2">
+                  Want to choose a different account type?{' '}
+                  <Link href="/account/type-selection" className="text-primary hover:underline font-medium">
+                    Change selection
+                  </Link>
+                </p>
               </div>
             )}
           </CardContent>

@@ -12,6 +12,8 @@ const publicRoutes = [
   '/login',
   '/signup',
   '/create-account',
+  '/account/type-selection',
+  '/admin/login',
   '/api/auth/callback',
 ]
 
