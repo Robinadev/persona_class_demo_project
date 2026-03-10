@@ -51,7 +51,7 @@ export default function LandingPage() {
               size="lg"
               className="bg-gradient-to-r from-green-600 to-green-400 hover:from-green-700 hover:to-green-500 text-white shadow-lg font-semibold"
             >
-              <Link href="/create-account" className="inline-flex items-center gap-2">
+              <Link href="/account/type-selection" className="inline-flex items-center gap-2">
                 Create Account
                 <ArrowRight className="h-5 w-5" />
               </Link>
