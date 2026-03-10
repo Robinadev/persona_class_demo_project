@@ -20,8 +20,8 @@ const publicRoutes = [
 
 // Routes by role
 const roleRoutes: Record<UserRole, string[]> = {
-  super_admin: ['/dashboard/super-admin', '/admin'],
-  admin: ['/dashboard/admin', '/admin/users'],
+  super_admin: ['/dashboard/super-admin', '/admin', '/admin/dashboard'],
+  admin: ['/dashboard/admin', '/admin', '/admin/dashboard', '/admin/users', '/admin/calls', '/admin/top-up', '/admin/send-money', '/admin/recharge', '/admin/user-activity', '/admin/plans', '/admin/billing', '/admin/settings'],
   support: ['/dashboard/support'],
   user: ['/dashboard/user', '/profile'],
 }
