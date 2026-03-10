@@ -24,7 +24,7 @@ import { useRouter } from "next/navigation"
 import { logout } from "@/app/actions/auth"
 
 const navItems = [
-  { href: "/admin", label: "Dashboard", icon: Home },
+  { href: "/admin/dashboard", label: "Dashboard", icon: Home },
   { href: "/admin/users", label: "Users", icon: Users },
   { href: "/admin/calls", label: "Calls", icon: PhoneCall },
   { href: "/admin/top-up", label: "Top-Up", icon: Wallet },
@@ -43,12 +43,17 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname()
 
   const handleLogout = async () => {
-    await logout()
+    try {
+      const { supabase } = await import("@/lib/auth-service")
+      await supabase.auth.signOut()
+    } catch (error) {
+      console.error("Logout error:", error)
+    }
     router.push("/admin/login")
   }
 
   // Check if the current path is the login page
-  if (pathname === "/admin/login") {
+  if (pathname === "/admin/login" || pathname === "/admin/(auth)/login") {
     return <>{children}</>
   }
 

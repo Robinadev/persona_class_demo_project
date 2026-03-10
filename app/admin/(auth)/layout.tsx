@@ -2,8 +2,8 @@ import type { ReactNode } from "react"
 
 export default function AdminAuthLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F0FFF9]">
-      <div className="w-full max-w-md">{children}</div>
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-cyan-50 to-blue-50">
+      {children}
     </div>
   )
 }
