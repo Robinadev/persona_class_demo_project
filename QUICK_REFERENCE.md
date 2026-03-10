@@ -1,27 +1,21 @@
-# Talaritel Quick Reference Card
+# Talari Quick Reference Card
 
-## 4-Step Deployment
+## 3-Step Deployment
 
 ```bash
 # 1. Install & Setup (5 min)
 npm install
-cp .env.example .env.local
-# Edit .env.local with Supabase keys
+# Check .env.local has Supabase keys
 
-# 2. Database (3 min)
-# In Supabase SQL Editor, run:
-# - scripts/01-create-tables.sql
-# - scripts/02-create-indexes.sql
-# - scripts/03-enable-rls.sql
-
-# 3. Test Locally (5 min)
+# 2. Test Locally (5 min)
 npm run dev
-# Check: http://localhost:3000/landing
+# Check: http://localhost:3000 (home)
 # Check: http://localhost:3000/api/health
+# Check: http://localhost:3000/admin (admin panel)
 
-# 4. Deploy (2 min)
+# 3. Deploy (2 min)
 git push main
-# Add env vars in Vercel dashboard
+# Vercel auto-deploys with env vars
 ```
 
 ---
@@ -29,9 +23,13 @@ git push main
 ## Environment Variables (Required)
 
 ```env
+# Supabase Configuration
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+
+# JWT Secret
+JWT_SECRET=your-strong-random-secret-key
 ```
 
 Get from: [supabase.com](https://supabase.com) → Project Settings → API
@@ -90,37 +88,41 @@ scripts/
 
 ---
 
-## API Endpoints (16 Total)
+## API Endpoints (23 Total)
 
-### User
-- `GET/PUT /api/users/profile` - Profile management
+### Authentication
+- `POST /api/auth/send-otp` - Send OTP code
+- `POST /api/auth/verify-otp` - Verify OTP
+- `POST /api/auth/create-account` - Create user account
+- `POST /api/auth/resend-otp` - Resend verification code
 
-### Wallet
+### User & Wallet
+- `GET /api/users/profile` - Get user profile
 - `GET /api/wallets/balance` - Check balance
-- `POST /api/wallets/topup` - Top-up funds
+- `POST /api/wallets/topup` - Top-up balance
 
-### Calls
-- `POST /api/calls/log` - Log a call
-- `GET /api/calls/log` - Get call history
-
-### Transfers
+### Calls & Transfers
+- `POST /api/calls/log` - Log call
+- `GET /api/calls/history` - Call history
 - `POST /api/transfers/send` - Send money
-- `GET /api/transfers` - Transfer history
-
-### Transactions
 - `GET /api/transactions/history` - Transaction logs
 
-### Contacts
-- `GET/POST/PUT/DELETE /api/contacts/manage` - Manage contacts
-
-### Plans & Subscriptions
-- `GET /api/plans/list` - Get plans
-- `POST /api/subscriptions/purchase` - Buy subscription
+### Contacts & Plans
+- `GET /api/contacts` - Get contacts
+- `POST /api/contacts/manage` - Manage contacts
+- `GET /api/plans/list` - Get subscription plans
+- `POST /api/subscriptions/purchase` - Buy plan
 
 ### Admin
-- `GET /api/statistics/dashboard` - Analytics
-- `GET /api/activity/log` - Activity logs
+- `GET /api/admin/dashboard-stats` - Real-time analytics
+- `POST /api/admin/check-auth` - Verify admin auth
+- `POST /api/admin/login` - Admin login
+- `POST /api/admin/logout` - Admin logout
+
+### Utility
 - `GET /api/health` - Health check
+- `GET /api/statistics/dashboard` - Dashboard stats
+- `POST /api/activity/log` - Log activity
 
 ---
 
@@ -209,13 +211,13 @@ npm run build
 
 ---
 
-## Color Palette (Ethiopian Theme)
+## Color Palette (Talari)
 
 ```
-Primary:   #CE1126 (Red)
-Secondary: #FFE135 (Gold)
-Accent:    #007A5E (Green)
-Dark:      #1a1a1a (Dark)
+Primary:   #038E7D (Teal)
+Primary Dark: #025E52 (Dark Teal)
+Secondary: #F0FFF9 (Light Teal)
+Accent:    #0ea5e9 (Light Blue)
 ```
 
 ---
@@ -279,29 +281,44 @@ Dark:      #1a1a1a (Dark)
 
 ```
 Files:           100+
-Lines of Code:   10,000+
-API Routes:      16
-Database Tables: 10
-Components:      50+
-Pages:           5
-Hooks:           6
-Utilities:       7
-Documentation:   5 guides
+Lines of Code:   12,000+
+API Routes:      23
+Database Tables: 7
+Components:      60+
+Pages:           8+
+Hooks:           8
+Utilities:       10
+Documentation:   4 guides
+Mobile Screens:  23
 ```
 
 ---
 
 ## Next Steps
 
-1. **Setup** (5 min): `npm install`, `.env.local`, Supabase keys
-2. **Database** (3 min): Run SQL scripts
-3. **Test** (5 min): `npm run dev`
-4. **Deploy** (2 min): `git push main`
+1. **Setup** (5 min): `npm install`, verify `.env.local`
+2. **Test** (5 min): `npm run dev` (web, admin, mobile)
+3. **Deploy** (2 min): `git push main`
 
-**Total: 15 minutes to production!**
+**Total: 12 minutes to production!**
 
 ---
 
-**Talaritel** - Connect Globally, Root in Ethiopia 🇪🇹
+## Quick Testing
 
-*Everything is ready. Let's deploy!*
+**Web App**: http://localhost:3000
+- Home page, Login, Signup, Support, Call
+
+**Admin Panel**: http://localhost:3001
+- Dashboard with real-time analytics
+- Charts and user statistics
+
+**Mobile App**: `npx expo start`
+- OTP authentication
+- All 23 screens
+
+---
+
+**Talari** - Global Calling, Modern Design
+
+*Everything is ready. Deploy with confidence!*
