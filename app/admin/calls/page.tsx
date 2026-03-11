@@ -1,8 +1,19 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts"
-import { PhoneCall, TrendingUp, Clock, DollarSign } from "lucide-react"
+import { PhoneCall, TrendingUp, Clock, DollarSign, RefreshCw } from "lucide-react"
+import { useState, useEffect } from "react"
+import { toast } from "sonner"
+
+interface CallStats {
+  totalCalls: number
+  avgDuration: number
+  totalRevenue: number
+  growth: number
+  isLoading: boolean
+}
 
 const callData = [
   { date: "Mon", duration: 2400, calls: 140, revenue: 2400 },
@@ -15,11 +26,54 @@ const callData = [
 ]
 
 export default function CallsPage() {
+  const [stats, setStats] = useState<CallStats>({
+    totalCalls: 0,
+    avgDuration: 0,
+    totalRevenue: 0,
+    growth: 0,
+    isLoading: true,
+  })
+
+  useEffect(() => {
+    fetchStats()
+  }, [])
+
+  const fetchStats = async () => {
+    try {
+      setStats(prev => ({ ...prev, isLoading: true }))
+      const response = await fetch('/api/admin/calls')
+      const data = await response.json()
+
+      setStats({
+        totalCalls: data.stats?.callCount || 0,
+        avgDuration: data.stats?.avgDuration || 0,
+        totalRevenue: data.stats?.totalRevenue || 0,
+        growth: 23,
+        isLoading: false,
+      })
+      toast.success('Call stats updated')
+    } catch (error) {
+      console.error('Failed to fetch call stats:', error)
+      toast.error('Failed to load call statistics')
+      setStats(prev => ({ ...prev, isLoading: false }))
+    }
+  }
+
   return (
     <div className="space-y-8">
-      <div>
-        <h2 className="text-3xl font-bold bg-gradient-to-r from-red-600 via-yellow-600 to-green-600 bg-clip-text text-transparent">Call Analytics</h2>
-        <p className="text-gray-600 mt-1">Monitor call volume, duration, and revenue</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-red-600 via-yellow-600 to-green-600 bg-clip-text text-transparent">Call Analytics</h2>
+          <p className="text-gray-600 mt-1">Monitor call volume, duration, and revenue</p>
+        </div>
+        <Button 
+          onClick={fetchStats}
+          disabled={stats.isLoading}
+          className="bg-gradient-to-r from-red-600 to-yellow-600 hover:from-red-700 hover:to-yellow-700 text-white"
+        >
+          <RefreshCw className={`h-4 w-4 mr-2 ${stats.isLoading ? 'animate-spin' : ''}`} />
+          {stats.isLoading ? 'Loading...' : 'Refresh'}
+        </Button>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -31,7 +85,7 @@ export default function CallsPage() {
             </div>
           </CardHeader>
           <CardContent className="pt-6">
-            <p className="text-3xl font-bold text-red-700">12,453</p>
+            <p className="text-3xl font-bold text-red-700">{stats.totalCalls.toLocaleString()}</p>
             <p className="text-xs text-red-600 mt-2">All-time volume</p>
           </CardContent>
         </Card>
@@ -44,7 +98,7 @@ export default function CallsPage() {
             </div>
           </CardHeader>
           <CardContent className="pt-6">
-            <p className="text-3xl font-bold text-yellow-700">4m 32s</p>
+            <p className="text-3xl font-bold text-yellow-700">{(stats.avgDuration / 60).toFixed(1)}m</p>
             <p className="text-xs text-yellow-600 mt-2">Average call time</p>
           </CardContent>
         </Card>
@@ -57,7 +111,7 @@ export default function CallsPage() {
             </div>
           </CardHeader>
           <CardContent className="pt-6">
-            <p className="text-3xl font-bold text-green-700">ETB 45,320</p>
+            <p className="text-3xl font-bold text-green-700">ETB {stats.totalRevenue.toLocaleString()}</p>
             <p className="text-xs text-green-600 mt-2">This month</p>
           </CardContent>
         </Card>
@@ -70,7 +124,7 @@ export default function CallsPage() {
             </div>
           </CardHeader>
           <CardContent className="pt-6">
-            <p className="text-3xl font-bold text-blue-700">+23%</p>
+            <p className="text-3xl font-bold text-blue-700">+{stats.growth}%</p>
             <p className="text-xs text-blue-600 mt-2">vs last month</p>
           </CardContent>
         </Card>

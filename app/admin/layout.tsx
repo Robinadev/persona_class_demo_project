@@ -138,10 +138,16 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         <SheetContent side="left" className="w-64 p-0">
           <nav className="h-full bg-gradient-to-b from-red-600 to-yellow-500 text-white p-6 space-y-6">
             <div className="flex items-center gap-3 pb-4 border-b border-white/20">
-              <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center font-bold text-lg">T</div>
+              <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center overflow-hidden">
+                <img 
+                  src="https://cdn.prod.website-cdn.com/5f8d9b1c7c8f3b2e4a5d6c7e/670e3aea-f7fa-4c57-98a6-68ad94f8a56f.svg" 
+                  alt="Talari Logo"
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div>
                 <div className="font-bold">Talaritel</div>
-                <div className="text-sm text-white/80">Admin Panel</div>
+                <div className="text-sm text-white/80">Admin</div>
               </div>
             </div>
             <ul className="space-y-2">
@@ -169,10 +175,16 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       {/* Desktop Sidebar */}
       <nav className="hidden md:flex md:w-72 bg-gradient-to-b from-red-600 to-yellow-500 text-white flex-col p-6 shadow-xl">
         <div className="flex items-center gap-3 pb-6 border-b border-white/20 mb-6">
-          <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center font-bold text-xl">T</div>
+          <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center overflow-hidden">
+            <img 
+              src="https://cdn.prod.website-cdn.com/5f8d9b1c7c8f3b2e4a5d6c7e/670e3aea-f7fa-4c57-98a6-68ad94f8a56f.svg" 
+              alt="Talari Logo"
+              className="w-full h-full object-cover"
+            />
+          </div>
           <div>
             <div className="font-bold text-lg">Talaritel</div>
-            <div className="text-xs text-white/80">Admin Portal</div>
+            <div className="text-xs text-white/80">Admin Panel</div>
           </div>
         </div>
         <ul className="space-y-2 flex-1">
@@ -208,7 +220,13 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         <header className="bg-white/80 backdrop-blur-md border-b border-red-100 shadow-sm sticky top-0 z-30">
           <div className="flex justify-between items-center p-4 px-6">
             <div className="md:hidden flex items-center gap-2 ml-12">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-red-600 to-yellow-500 text-white flex items-center justify-center font-bold">T</div>
+              <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center overflow-hidden">
+                <img 
+                  src="https://cdn.prod.website-cdn.com/5f8d9b1c7c8f3b2e4a5d6c7e/670e3aea-f7fa-4c57-98a6-68ad94f8a56f.svg" 
+                  alt="Talari Logo"
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div className="font-bold text-red-600">Talaritel</div>
             </div>
             <div className="hidden md:block">
