@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 10, "column": 0}, "map": {"version":3,"sources":["file:///home/rehoboth/Talari%20complete/persona_class_demo_project/admin-panel/components/providers.tsx"],"sourcesContent":["'use client';\n\nimport { ReactNode } from 'react';\nimport { Toaster } from 'react-hot-toast';\n\nexport function Providers({ children }: { children: ReactNode }) {\n  return (\n    <>\n      {children}\n      <Toaster position=\"top-right\" />\n    </>\n  );\n}\n"],"names":[],"mappings":";;;;;AAGA;AAHA;;;AAKO,SAAS,UAAU,EAAE,QAAQ,EAA2B;IAC7D,qBACE;;YACG;0BACD,gQAAC,oLAAO;gBAAC,UAAS;;;;;;;;AAGxB"}}]
+}
