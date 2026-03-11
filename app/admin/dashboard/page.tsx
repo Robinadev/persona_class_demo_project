@@ -53,26 +53,20 @@ export default function AdminDashboard() {
     try {
       setStats(prev => ({ ...prev, isLoading: true }))
       
-      const { count: usersCount } = await supabase
-        .from('profiles')
-        .select('*', { count: 'exact', head: true })
-
-      const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
-      const { count: activeCount } = await supabase
-        .from('profiles')
-        .select('*', { count: 'exact', head: true })
-        .gte('updated_at', yesterday)
+      const response = await fetch('/api/admin/stats')
+      const data = await response.json()
 
       setStats({
-        totalUsers: usersCount || 0,
-        activeUsers: activeCount || 0,
-        totalCalls: Math.floor(Math.random() * 5000) + 2000,
-        totalRevenue: Math.floor(Math.random() * 50000) + 10000,
+        totalUsers: data.totalUsers || 0,
+        activeUsers: data.activeUsers || 0,
+        totalCalls: data.totalCalls || 0,
+        totalRevenue: data.totalRevenue || 0,
         isLoading: false,
       })
       toast.success('Dashboard updated')
     } catch (error) {
       console.error('Failed to fetch stats:', error)
+      toast.error('Failed to load dashboard stats')
       setStats(prev => ({ ...prev, isLoading: false }))
     }
   }

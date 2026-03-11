@@ -28,10 +28,8 @@ export default function UsersPage() {
   const fetchUsers = async () => {
     try {
       setIsLoading(true)
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('id, email, full_name, role, created_at, updated_at')
-        .order('created_at', { ascending: false })
+      const response = await fetch('/api/admin/users?limit=100')
+      const { data, error } = await response.json()
 
       if (error) throw error
       setUsers(data || [])
