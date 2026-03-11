@@ -1,165 +1,94 @@
 "use client"
 
-import { useState } from "react"
-import { DataTable } from "../components/data-table"
-import { columns } from "./columns"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useToast } from "@/components/ui/use-toast"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+import { Package, Users, DollarSign, TrendingUp } from "lucide-react"
 
-// Simulated data - in a real app, this would come from an API
-const initialPlans = [
-  {
-    id: 1,
-    name: "Basic",
-    price: 9.99,
-    minutes: 100,
-    validity: 30,
-    features: ["100 minutes to Ethiopia", "No hidden fees"],
-  },
-  {
-    id: 2,
-    name: "Standard",
-    price: 19.99,
-    minutes: 300,
-    validity: 30,
-    features: ["300 minutes to Ethiopia", "Rollover minutes"],
-  },
-  {
-    id: 3,
-    name: "Premium",
-    price: 29.99,
-    minutes: 600,
-    validity: 30,
-    features: ["600 minutes to Ethiopia", "Free SMS"],
-  },
+const plans = [
+  { name: "Basic", price: 9.99, minutes: 100, subscribers: 1200, revenue: 11988 },
+  { name: "Standard", price: 19.99, minutes: 300, subscribers: 2450, revenue: 48975 },
+  { name: "Premium", price: 29.99, minutes: 600, subscribers: 1850, revenue: 55482 },
+  { name: "Pro", price: 49.99, minutes: 1500, subscribers: 850, revenue: 42491 },
 ]
 
 export default function PlansPage() {
-  const [plans, setPlans] = useState(initialPlans)
-  const [newPlan, setNewPlan] = useState({ name: "", price: "", minutes: "", validity: "", features: "" })
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const { toast } = useToast()
-
-  const handleAddPlan = (e: React.FormEvent) => {
-    e.preventDefault()
-    const planToAdd = {
-      id: plans.length + 1,
-      name: newPlan.name,
-      price: Number.parseFloat(newPlan.price),
-      minutes: Number.parseInt(newPlan.minutes),
-      validity: Number.parseInt(newPlan.validity),
-      features: newPlan.features.split(",").map((feature) => feature.trim()),
-    }
-    setPlans([...plans, planToAdd])
-    setNewPlan({ name: "", price: "", minutes: "", validity: "", features: "" })
-    setIsDialogOpen(false)
-    toast({
-      title: "Plan Added",
-      description: `${planToAdd.name} plan has been successfully added.`,
-    })
-  }
-
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-[#038E7D]">Plans Management</h1>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>Add New Plan</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add New Plan</DialogTitle>
-              <DialogDescription>Create a new calling plan here. Click save when you're done.</DialogDescription>
-            </DialogHeader>
-            <form onSubmit={handleAddPlan}>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="name" className="text-right">
-                    Name
-                  </Label>
-                  <Input
-                    id="name"
-                    value={newPlan.name}
-                    onChange={(e) => setNewPlan({ ...newPlan, name: e.target.value })}
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="price" className="text-right">
-                    Price
-                  </Label>
-                  <Input
-                    id="price"
-                    type="number"
-                    value={newPlan.price}
-                    onChange={(e) => setNewPlan({ ...newPlan, price: e.target.value })}
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="minutes" className="text-right">
-                    Minutes
-                  </Label>
-                  <Input
-                    id="minutes"
-                    type="number"
-                    value={newPlan.minutes}
-                    onChange={(e) => setNewPlan({ ...newPlan, minutes: e.target.value })}
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="validity" className="text-right">
-                    Validity (days)
-                  </Label>
-                  <Input
-                    id="validity"
-                    type="number"
-                    value={newPlan.validity}
-                    onChange={(e) => setNewPlan({ ...newPlan, validity: e.target.value })}
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="features" className="text-right">
-                    Features
-                  </Label>
-                  <Input
-                    id="features"
-                    value={newPlan.features}
-                    onChange={(e) => setNewPlan({ ...newPlan, features: e.target.value })}
-                    className="col-span-3"
-                    placeholder="Comma-separated list of features"
-                  />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button type="submit">Save Plan</Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
+    <div className="space-y-8">
+      <div>
+        <h2 className="text-3xl font-bold bg-gradient-to-r from-red-600 via-yellow-600 to-green-600 bg-clip-text text-transparent">Plans & Subscriptions</h2>
+        <p className="text-gray-600 mt-1">Manage subscription plans and pricing tiers</p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Current Plans</CardTitle>
+      <div className="grid gap-6 md:grid-cols-2">
+        {plans.map((plan, idx) => (
+          <Card key={idx} className={`border-2 ${idx === 2 ? 'border-red-200' : 'border-gray-200'} bg-white/80 backdrop-blur hover:shadow-lg transition-all`}>
+            <CardHeader className={`bg-gradient-to-r ${
+              idx === 0 ? 'from-red-50 to-yellow-50' :
+              idx === 1 ? 'from-yellow-50 to-green-50' :
+              idx === 2 ? 'from-green-50 to-blue-50' :
+              'from-blue-50 to-purple-50'
+            } border-b`}>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-gray-900">{plan.name}</CardTitle>
+                  <p className="text-sm text-gray-600 mt-1">ETB {plan.price.toFixed(2)}/month</p>
+                </div>
+                <Package className={`h-6 w-6 ${
+                  idx === 0 ? 'text-red-600' :
+                  idx === 1 ? 'text-yellow-600' :
+                  idx === 2 ? 'text-green-600' :
+                  'text-blue-600'
+                }`} />
+              </div>
+            </CardHeader>
+            <CardContent className="pt-6 space-y-4">
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <span className="text-sm text-gray-600">Minutes Included</span>
+                <span className="font-bold text-gray-900">{plan.minutes.toLocaleString()}</span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <span className="text-sm text-gray-600 flex items-center gap-2">
+                  <Users className="h-4 w-4" />
+                  Subscribers
+                </span>
+                <span className="font-bold text-gray-900">{plan.subscribers.toLocaleString()}</span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <span className="text-sm text-gray-600 flex items-center gap-2">
+                  <DollarSign className="h-4 w-4" />
+                  Monthly Revenue
+                </span>
+                <span className="font-bold text-gray-900">ETB {plan.revenue.toLocaleString()}</span>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <Card className="border-2 border-green-100 bg-white/80 backdrop-blur">
+        <CardHeader className="bg-gradient-to-r from-green-50 to-blue-50 border-b border-green-100">
+          <CardTitle className="text-gray-900">Subscription Summary</CardTitle>
         </CardHeader>
-        <CardContent>
-          <DataTable columns={columns} data={plans} />
+        <CardContent className="pt-6">
+          <div className="grid gap-4 md:grid-cols-3">
+            <div className="p-4 bg-gradient-to-br from-red-50 to-red-100/50 rounded-lg border border-red-200">
+              <p className="text-sm text-red-600 font-semibold">Total Subscribers</p>
+              <p className="text-2xl font-bold text-red-700 mt-2">
+                {plans.reduce((sum, p) => sum + p.subscribers, 0).toLocaleString()}
+              </p>
+            </div>
+            <div className="p-4 bg-gradient-to-br from-yellow-50 to-yellow-100/50 rounded-lg border border-yellow-200">
+              <p className="text-sm text-yellow-600 font-semibold">Total Revenue</p>
+              <p className="text-2xl font-bold text-yellow-700 mt-2">
+                ETB {plans.reduce((sum, p) => sum + p.revenue, 0).toLocaleString()}
+              </p>
+            </div>
+            <div className="p-4 bg-gradient-to-br from-green-50 to-green-100/50 rounded-lg border border-green-200">
+              <p className="text-sm text-green-600 font-semibold">Average Price</p>
+              <p className="text-2xl font-bold text-green-700 mt-2">
+                ETB {(plans.reduce((sum, p) => sum + p.price, 0) / plans.length).toFixed(2)}
+              </p>
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>
