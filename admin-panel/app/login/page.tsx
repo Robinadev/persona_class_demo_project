@@ -2,10 +2,11 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { supabase } from "@/lib/auth-service"
 import { toast } from "sonner"
-import { Lock, Mail } from "lucide-react"
+import { Lock, Mail, ArrowRight } from "lucide-react"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -55,14 +56,23 @@ export default function LoginPage() {
         <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
           {/* Logo */}
           <div className="flex justify-center mb-8">
-            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-teal-600 to-teal-700 flex items-center justify-center">
-              <div className="text-2xl font-bold text-white">⚙️</div>
+            <div className="relative w-20 h-20">
+              <div className="absolute inset-0 bg-gradient-to-br from-teal-500 to-teal-600 rounded-full opacity-20 blur-xl" />
+              <div className="relative bg-white rounded-full flex items-center justify-center border-4 border-teal-100 shadow-lg">
+                <img
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Talarite%20new%20logo-02-LqLwTaQj77YS1jGv22EJZL2OuBuXAB.png"
+                  alt="Talaritel"
+                  width={80}
+                  height={80}
+                  className="object-contain p-2"
+                />
+              </div>
             </div>
           </div>
 
           {/* Title */}
-          <h1 className="text-3xl font-bold text-gray-900 text-center mb-2">Admin Panel</h1>
-          <p className="text-gray-600 text-center mb-8">Sign in to Talaritel Admin Dashboard</p>
+          <h1 className="text-3xl font-bold text-gray-900 text-center mb-2">Talaritel</h1>
+          <p className="text-gray-600 text-center mb-8">Admin Panel - Sign in to dashboard</p>
 
           {/* Form */}
           <form onSubmit={handleLogin} className="space-y-5">
@@ -114,10 +124,28 @@ export default function LoginPage() {
             </Button>
           </form>
 
+          {/* Divider */}
+          <div className="mt-8 mb-6 flex items-center gap-3">
+            <div className="flex-1 h-px bg-gray-200" />
+            <span className="text-sm text-gray-500">or</span>
+            <div className="flex-1 h-px bg-gray-200" />
+          </div>
+
+          {/* Sign Up Link */}
+          <Link href="/signup">
+            <Button
+              type="button"
+              className="w-full bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white font-semibold py-2.5 rounded-lg transition flex items-center justify-center gap-2"
+            >
+              Create New Account
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </Link>
+
           {/* Info */}
-          <div className="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
             <p className="text-sm text-blue-900">
-              <span className="font-semibold">Demo credentials:</span> Use your Talaritel admin account
+              <span className="font-semibold">New admin?</span> Create an account to get started
             </p>
           </div>
         </div>

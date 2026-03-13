@@ -12,7 +12,19 @@ export default function RootPage() {
       const { data: { session } } = await supabase.auth.getSession()
       
       if (session) {
-        router.push('/')
+        // Verify user has admin role
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', session.user.id)
+          .single()
+
+        if (profile?.role === 'admin' || profile?.role === 'super_admin' || profile?.role === 'support') {
+          router.push('/dashboard')
+        } else {
+          await supabase.auth.signOut()
+          router.push('/login')
+        }
       } else {
         router.push('/login')
       }
