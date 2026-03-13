@@ -1,27 +1,18 @@
-import type { Metadata, Viewport } from 'next'
+import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
-import '../styles/globals.css'
-import { Providers } from '@/components/providers'
+import { Toaster } from 'sonner'
+import './globals.css'
 
-const geistSans = Geist({ subsets: ['latin'] })
-const geistMono = Geist_Mono({ subsets: ['latin'] })
+const _geist = Geist({ subsets: ['latin'] })
+const _geistMono = Geist_Mono({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Talari Admin Panel',
-  description: 'Manage Talari users, transactions, and analytics',
-  generator: 'Next.js',
+  title: 'Talaritel Admin Panel',
+  description: 'Platform administration dashboard for Talaritel',
+  generator: 'v0.app',
   icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-icon.png',
+    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">⚙️</text></svg>',
   },
-}
-
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-  themeColor: '#038E7D',
 }
 
 export default function RootLayout({
@@ -31,10 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
-        <Providers>
-          {children}
-        </Providers>
+      <body className="font-sans antialiased">
+        {children}
+        <Toaster position="top-right" richColors />
       </body>
     </html>
   )
